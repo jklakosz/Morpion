@@ -1,4 +1,4 @@
-package fr.ryukk.lol;
+package fr.ryukk.morpion;
 
 public class Morpion {
 
