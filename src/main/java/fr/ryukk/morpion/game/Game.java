@@ -2,42 +2,48 @@ package fr.ryukk.morpion.game;
 
 import fr.ryukk.morpion.Morpion;
 
-import java.awt.*;
-
 public final class Game {
 
     private Tile[][] grid;
 
-    private boolean isPlayerTurn;
+    private volatile boolean playerTurn;
+    private Tile.TileType playerType;
 
-    public Game(int size) {
-        grid = new Tile[size][size];
+    public Game() {
+        grid = new Tile[3][3];
 
-        for(int x = 0; x < size; x++)
-            for(int y = 0; y < size; y++)
+        for(int x = 0; x < 3; x++)
+            for(int y = 0; y < 3; y++)
                 grid[x][y] = new Tile(x, y);
 
-        isPlayerTurn = true;
+        playerTurn = true;
+        playerType = Tile.TileType.X;
     }
 
     public void start() {
         boolean win = false;
 
         while(!win) {
-            paint(Morpion.window().getGraphics());
-
-            if (!isPlayerTurn)
+            if (!playerTurn) {
+                checkWin();
                 iaTurn();
+                checkWin();
+            }
 
-            checkWin();
         }
 
+    }
+
+    public void playerTurn(int x, int y) {
+        grid[x][y].setType(playerType);
+        Morpion.window().repaint();
+        playerTurn = false;
     }
 
     public void iaTurn() {
 
 
-
+        playerTurn = true;
     }
 
     public void checkWin() {
@@ -46,11 +52,9 @@ public final class Game {
 
     }
 
-    public void paint(Graphics g) {
-        g.drawLine(5, 5, 300, 300);
-        g.dispose();
-    }
-
     public Tile[][] getGrid() { return grid; }
+
+    public boolean isPlayerTurn() { return playerTurn; }
+    public Tile.TileType getPlayerType() { return playerType; }
 
 }

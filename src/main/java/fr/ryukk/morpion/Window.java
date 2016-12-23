@@ -1,32 +1,27 @@
 package fr.ryukk.morpion;
 
+import fr.ryukk.morpion.game.GamePanel;
 import fr.ryukk.morpion.utils.Constants;
 
 import javax.swing.*;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
+import java.awt.*;
 
-public final class Window extends JFrame implements MouseListener {
+public final class Window extends JFrame {
 
     public Window() {
         super("Morpion");
 
-        setSize(Constants.WINDOW_WIDTH, Constants.WINDOW_HEIGHT);
+        Dimension size = new Dimension(Constants.WINDOW_WIDTH - 10, Constants.WINDOW_HEIGHT - 10);
+
+        setContentPane(new GamePanel());
+        getContentPane().setPreferredSize(size);
+        pack();
+
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setResizable(false);
-        addMouseListener(this);
 
+        setResizable(false);
         setVisible(true);
     }
-
-    public void mousePressed(MouseEvent e) {
-
-    }
-
-    public void mouseClicked(MouseEvent e) { }
-    public void mouseReleased(MouseEvent e) { }
-    public void mouseEntered(MouseEvent e) { }
-    public void mouseExited(MouseEvent e) { }
 
 }

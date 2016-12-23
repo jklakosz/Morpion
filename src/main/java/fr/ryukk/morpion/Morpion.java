@@ -1,7 +1,7 @@
 package fr.ryukk.morpion;
 
 import fr.ryukk.morpion.game.Game;
-import fr.ryukk.morpion.utils.Constants;
+
 
 public final class Morpion {
 
@@ -11,8 +11,10 @@ public final class Morpion {
     private static Game game;
 
     private void start() {
+        game = new Game();
         window = new Window();
-        game = new Game(Constants.GRID_SIZE);
+
+        game.start();
     }
 
     public static void main(String[] args) {
