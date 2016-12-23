@@ -1,2 +1,2 @@
 # Morpion
-A simple multiplayer morpion game.
+A simple morpion game.
