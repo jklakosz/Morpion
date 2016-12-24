@@ -1,6 +1,9 @@
 package fr.ryukk.morpion;
 
 import fr.ryukk.morpion.game.Game;
+import fr.ryukk.morpion.game.Tile;
+import fr.ryukk.morpion.game.player.HumanPlayer;
+import fr.ryukk.morpion.game.player.Player;
 
 
 public final class Morpion {
@@ -11,7 +14,11 @@ public final class Morpion {
     private static Game game;
 
     private void start() {
-        game = new Game();
+        Player[] players = new Player[2];
+        players[0] = new HumanPlayer(Tile.TileType.X);
+        players[1] = new HumanPlayer(Tile.TileType.O);
+
+        game = new Game(players);
         window = new Window();
 
         game.start();

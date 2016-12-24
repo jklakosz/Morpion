@@ -1,6 +1,6 @@
 package fr.ryukk.morpion;
 
-import fr.ryukk.morpion.game.GamePanel;
+import fr.ryukk.morpion.game.panel.GamePanel;
 import fr.ryukk.morpion.utils.Constants;
 
 import javax.swing.*;

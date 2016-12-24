@@ -1,4 +1,4 @@
-package fr.ryukk.morpion.game;
+package fr.ryukk.morpion.game.panel;
 
 import fr.ryukk.morpion.Morpion;
 import fr.ryukk.morpion.game.listener.MouseInteractListener;
@@ -28,17 +28,26 @@ public final class GamePanel extends JPanel {
         g2d.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
         g2d.setRenderingHint(RenderingHints.KEY_ALPHA_INTERPOLATION, RenderingHints.VALUE_ALPHA_INTERPOLATION_QUALITY);
 
+        renderGrid(g2d);
+        renderConfig(g2d);
+
+    }
+
+    private void renderGrid(Graphics2D g2d) {
+        int gridSize = Constants.WINDOW_HEIGHT - 40;
+
+        // Background
         g2d.setColor(Constants.BACKGROUND_COLOR);
         g2d.fillRect(0, 0, Constants.WINDOW_WIDTH, Constants.WINDOW_HEIGHT);
 
-        g2d.setStroke(new BasicStroke(13));
+        // Tiles
+        g2d.setStroke(Constants.LINE_STROKE);
 
         for(int x = 0; x < 3; x++)
             for(int y = 0; y < 3; y++)
                 Morpion.game().getGrid()[x][y].paint(g2d);
 
-        int gridSize = Constants.WINDOW_HEIGHT - 40;
-
+        // Grid
         g2d.setColor(Constants.GRID_COLOR);
         g2d.drawRoundRect(20, 20, gridSize, gridSize, 5, 5);
 
@@ -48,6 +57,23 @@ public final class GamePanel extends JPanel {
             g2d.drawLine(k, 20, k, gridSize + 20);
             g2d.drawLine(20, k, gridSize + 20, k);
         }
+
+    }
+
+    private void renderConfig(Graphics2D g2d) {
+        int baseX = Constants.WINDOW_WIDTH - Constants.WINDOW_HEIGHT;
+
+        g2d.setStroke(Constants.BASIC_STROKE);
+
+        // Title
+        g2d.setColor(Constants.BASE_FONT_COLOR);
+        g2d.setFont(Constants.BASE_FONT);
+
+        String title = "Morpion";
+
+        g2d.drawString(title, Constants.WINDOW_HEIGHT + (baseX / 2) -
+                (g2d.getFontMetrics(Constants.BASE_FONT).stringWidth(title) / 2),
+                70);
 
     }
 

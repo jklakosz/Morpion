@@ -1,6 +1,7 @@
 package fr.ryukk.morpion.game;
 
 import fr.ryukk.morpion.Morpion;
+import fr.ryukk.morpion.game.player.HumanPlayer;
 import fr.ryukk.morpion.utils.Constants;
 
 import java.awt.*;
@@ -8,7 +9,7 @@ import java.awt.*;
 public final class Tile {
 
     private int x, y;
-    private TileType type;
+    private TileType tileType;
 
     private boolean hovered;
 
@@ -16,7 +17,7 @@ public final class Tile {
         this.x = x;
         this.y = y;
 
-        this.type = TileType.NONE;
+        this.tileType = TileType.NONE;
 
         this.hovered = false;
     }
@@ -29,29 +30,18 @@ public final class Tile {
 
         int size = (gridSize / 3) - 60;
 
-        if(hovered && Morpion.game().isPlayerTurn()) {
-            if(type.equals(TileType.NONE))
+        if(hovered && Morpion.game().getPlayerTurn() instanceof HumanPlayer) {
+            if(tileType.equals(TileType.NONE))
                 g2d.setColor(Constants.HOVER_NONE_COLOR);
-            else if(type.equals(Morpion.game().getPlayerType()))
+            else if(tileType.equals(Morpion.game().getPlayerTurn().getTileType()))
                 g2d.setColor(Constants.HOVER_FRIEND_COLOR);
             else
                 g2d.setColor(Constants.HOVER_ENNEMY_COLOR);
 
-            g2d.fillRect(
-                    20 + this.x * (gridSize / 3),
-                    20 + this.y * (gridSize / 3),
-                    gridSize / 3,
-                    gridSize / 3);
-
-            /*if(type.equals(TileType.NONE)) {
-                g2d.setColor(Constants.HOVER_COLOR);
-                g2d.drawLine(x, y, x + size, y + size);
-                g2d.drawLine(x + size, y, x, y + size);
-            }*/
-
+            g2d.fillRect( 20 + this.x * (gridSize / 3), 20 + this.y * (gridSize / 3), gridSize / 3, gridSize / 3);
         }
 
-        switch(type) {
+        switch(tileType) {
             case NONE:
                 break;
             case X:
@@ -70,8 +60,8 @@ public final class Tile {
     public int getX() { return x; }
     public int getY() { return y; }
 
-    public void setType(TileType type) { this.type = type; }
-    public TileType getType() { return type; }
+    public void setTileType(TileType type) { this.tileType = type; }
+    public TileType getTileType() { return tileType; }
 
     public void setHovered(boolean hovered) { this.hovered = hovered; }
     public boolean isHovered() { return hovered; }

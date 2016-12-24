@@ -2,6 +2,8 @@ package fr.ryukk.morpion.game.listener;
 
 import fr.ryukk.morpion.Morpion;
 import fr.ryukk.morpion.game.Tile;
+import fr.ryukk.morpion.game.player.HumanPlayer;
+import fr.ryukk.morpion.game.player.Player;
 import fr.ryukk.morpion.utils.Constants;
 
 import java.awt.event.MouseEvent;
@@ -12,13 +14,12 @@ public class MouseInteractListener implements MouseListener, MouseMotionListener
 
     @Override
     public void mousePressed(MouseEvent e) {
-        if(Morpion.game().isPlayerTurn())
-            for (int x = 0; x < 3; x++)
-                for (int y = 0; y < 3; y++)
+        if(Morpion.game().getPlayerTurn().getPlayerType().equals(Player.PlayerType.HUMAN))
+            for(int x = 0; x < 3; x++)
+                for(int y = 0; y < 3; y++)
                     if(Morpion.game().getGrid()[x][y].isHovered())
-                        if(Morpion.game().getGrid()[x][y].getType().equals(Tile.TileType.NONE))
-                            Morpion.game().playerTurn(x, y);
-
+                        if(Morpion.game().getGrid()[x][y].getTileType().equals(Tile.TileType.NONE))
+                            ((HumanPlayer) Morpion.game().getPlayerTurn()).playerClick(x, y);
     }
 
     @Override
