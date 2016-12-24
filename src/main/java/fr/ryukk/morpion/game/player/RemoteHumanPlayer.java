@@ -4,8 +4,8 @@ import fr.ryukk.morpion.game.Tile;
 
 public class RemoteHumanPlayer extends Player {
 
-    public RemoteHumanPlayer(Tile.TileType type) {
-        super(type);
+    public RemoteHumanPlayer(String name, Tile.TileType type) {
+        super(name, type);
         this.playerType = PlayerType.REMOTE_HUMAN;
     }
 

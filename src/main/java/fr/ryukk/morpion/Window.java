@@ -1,19 +1,17 @@
 package fr.ryukk.morpion;
 
-import fr.ryukk.morpion.game.panel.GamePanel;
-import fr.ryukk.morpion.utils.Constants;
-
 import javax.swing.*;
 import java.awt.*;
+
+import static fr.ryukk.morpion.utils.Constants.*;
 
 public final class Window extends JFrame {
 
     public Window() {
         super("Morpion");
 
-        Dimension size = new Dimension(Constants.WINDOW_WIDTH - 10, Constants.WINDOW_HEIGHT - 10);
+        Dimension size = new Dimension(WINDOW_WIDTH - 10, WINDOW_HEIGHT - 10);
 
-        setContentPane(new GamePanel());
         getContentPane().setPreferredSize(size);
         pack();
 

@@ -1,14 +1,16 @@
 package fr.ryukk.morpion.game.listener;
 
 import fr.ryukk.morpion.Morpion;
+import fr.ryukk.morpion.game.Game;
 import fr.ryukk.morpion.game.Tile;
 import fr.ryukk.morpion.game.player.HumanPlayer;
 import fr.ryukk.morpion.game.player.Player;
-import fr.ryukk.morpion.utils.Constants;
 
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+
+import static fr.ryukk.morpion.utils.Constants.*;
 
 public class MouseInteractListener implements MouseListener, MouseMotionListener {
 
@@ -24,10 +26,12 @@ public class MouseInteractListener implements MouseListener, MouseMotionListener
 
     @Override
     public void mouseMoved(MouseEvent e) {
-        int gridSize = Constants.WINDOW_HEIGHT - 40;
+        int gridSize = WINDOW_HEIGHT - 40;
 
         int mX = e.getX();
         int mY = e.getY();
+
+        Game game = Morpion.game();
 
         for(int x = 0; x < 3; x++) {
             for(int y = 0; y < 3; y++) {
@@ -38,10 +42,9 @@ public class MouseInteractListener implements MouseListener, MouseMotionListener
                 int maxY = 20 + (y + 1) * (gridSize / 3);
 
                 if(minX < mX && mX <= maxX && minY < mY && mY <= maxY)
-                    Morpion.game().getGrid()[x][y].setHovered(true);
+                    game.getGrid()[x][y].setHovered(true);
                 else
-                    Morpion.game().getGrid()[x][y].setHovered(false);
-
+                    game.getGrid()[x][y].setHovered(false);
             }
 
         }

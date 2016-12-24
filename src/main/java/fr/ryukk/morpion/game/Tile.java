@@ -1,10 +1,12 @@
 package fr.ryukk.morpion.game;
 
 import fr.ryukk.morpion.Morpion;
-import fr.ryukk.morpion.game.player.HumanPlayer;
-import fr.ryukk.morpion.utils.Constants;
+import fr.ryukk.morpion.game.player.Player;
+import fr.ryukk.morpion.utils.UtilDraw;
 
 import java.awt.*;
+
+import static fr.ryukk.morpion.utils.Constants.*;
 
 public final class Tile {
 
@@ -23,20 +25,22 @@ public final class Tile {
     }
 
     public void paint(Graphics2D g2d) {
-        int gridSize = Constants.WINDOW_HEIGHT - 40;
+        int gridSize = WINDOW_HEIGHT - 40;
 
         int x = 20 + this.x * (gridSize / 3) + 30;
         int y = 20 + this.y * (gridSize / 3) + 30;
 
         int size = (gridSize / 3) - 60;
 
-        if(hovered && Morpion.game().getPlayerTurn() instanceof HumanPlayer) {
+        Game game = Morpion.game();
+
+        if(hovered && game.getPlayerTurn().getPlayerType().equals(Player.PlayerType.HUMAN) && game.isPlaying()) {
             if(tileType.equals(TileType.NONE))
-                g2d.setColor(Constants.HOVER_NONE_COLOR);
+                g2d.setColor(HOVER_NONE_COLOR);
             else if(tileType.equals(Morpion.game().getPlayerTurn().getTileType()))
-                g2d.setColor(Constants.HOVER_FRIEND_COLOR);
+                g2d.setColor(HOVER_FRIEND_COLOR);
             else
-                g2d.setColor(Constants.HOVER_ENNEMY_COLOR);
+                g2d.setColor(HOVER_ENNEMY_COLOR);
 
             g2d.fillRect( 20 + this.x * (gridSize / 3), 20 + this.y * (gridSize / 3), gridSize / 3, gridSize / 3);
         }
@@ -45,13 +49,12 @@ public final class Tile {
             case NONE:
                 break;
             case X:
-                g2d.setColor(Constants.X_COLOR);
-                g2d.drawLine(x, y, x + size, y + size);
-                g2d.drawLine(x + size, y, x, y + size);
+                g2d.setColor(X_COLOR);
+                UtilDraw.drawCross(g2d, x, y, size);
                 break;
             case O:
-                g2d.setColor(Constants.O_COLOR);
-                g2d.drawOval(x, y, size, size);
+                g2d.setColor(O_COLOR);
+                UtilDraw.drawCircle(g2d, x, y, size);
                 break;
         }
 

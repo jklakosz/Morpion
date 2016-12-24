@@ -1,7 +1,8 @@
 package fr.ryukk.morpion.game;
 
 import fr.ryukk.morpion.Morpion;
-import fr.ryukk.morpion.game.player.HumanPlayer;
+import fr.ryukk.morpion.Window;
+import fr.ryukk.morpion.game.panel.GamePanel;
 import fr.ryukk.morpion.game.player.Player;
 import fr.ryukk.morpion.utils.Serie;
 
@@ -22,8 +23,20 @@ public final class Game {
 
         this.players = players;
 
+        assert !players[0].getTileType().equals(players[1].getTileType()) &&
+                !players[0].getTileType().equals(Tile.TileType.NONE) &&
+                !players[1].getTileType().equals(Tile.TileType.NONE) : "Players cannot have the same tile type";
+
         playerTurn = 0;
         winner = -1;
+    }
+
+    public void view() {
+        Window window = Morpion.window();
+
+        window.setContentPane(new GamePanel());
+        window.revalidate();
+        window.repaint();
     }
 
     public void start() {
@@ -40,7 +53,10 @@ public final class Game {
     }
 
     public void endGame() {
-        System.out.println("Fin du jeu lol");
+        if(winner >= 0 && winner < 2)
+            players[winner].addVictory();
+
+        System.out.println("Game finished, starting a new one soon");
 
         try {
             Thread.sleep(3000);
@@ -50,6 +66,10 @@ public final class Game {
         reset();
     }
 
+    /*
+        TODO: To delete
+     */
+
     public void reset() {
         grid = new Tile[3][3];
         for(int x = 0; x < 3; x++)
@@ -57,6 +77,8 @@ public final class Game {
                 grid[x][y] = new Tile(x, y);
 
         winner = -1;
+
+        Morpion.window().repaint();
 
         start();
     }
@@ -92,5 +114,7 @@ public final class Game {
         else
             return players[1];
     }
+
+    public boolean isPlaying() { return winner == -1; }
 
 }

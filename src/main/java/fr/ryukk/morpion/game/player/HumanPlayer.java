@@ -7,8 +7,8 @@ public class HumanPlayer extends Player {
 
     private boolean waitingToPlay;
 
-    public HumanPlayer(Tile.TileType type) {
-        super(type);
+    public HumanPlayer(String name, Tile.TileType type) {
+        super(name, type);
         this.playerType = PlayerType.HUMAN;
 
         waitingToPlay = false;

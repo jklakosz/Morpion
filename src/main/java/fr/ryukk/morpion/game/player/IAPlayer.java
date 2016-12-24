@@ -5,7 +5,7 @@ import fr.ryukk.morpion.game.Tile;
 public class IAPlayer extends Player {
 
     public IAPlayer(Tile.TileType type) {
-        super(type);
+        super("Alfred De Musset", type);
         this.playerType = Player.PlayerType.IA;
     }
 
