@@ -56,7 +56,7 @@ public final class GamePanel extends JPanel {
 
         for(int x = 0; x < 3; x++)
             for(int y = 0; y < 3; y++)
-                Morpion.game().getGrid()[x][y].paint(g2d);
+                Morpion.game().getGrid()[x][y].paintComponent(g2d);
 
         // Grid
         g2d.setColor(GRID_COLOR);

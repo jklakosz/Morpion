@@ -26,8 +26,6 @@ public class MouseInteractListener implements MouseListener, MouseMotionListener
 
     @Override
     public void mouseMoved(MouseEvent e) {
-        int gridSize = WINDOW_HEIGHT - 40;
-
         int mX = e.getX();
         int mY = e.getY();
 
@@ -35,16 +33,7 @@ public class MouseInteractListener implements MouseListener, MouseMotionListener
 
         for(int x = 0; x < 3; x++) {
             for(int y = 0; y < 3; y++) {
-                int minX = 20 + x * (gridSize / 3);
-                int maxX = 20 + (x + 1) * (gridSize / 3);
 
-                int minY = 20 + y * (gridSize / 3);
-                int maxY = 20 + (y + 1) * (gridSize / 3);
-
-                if(minX < mX && mX <= maxX && minY < mY && mY <= maxY)
-                    game.getGrid()[x][y].setHovered(true);
-                else
-                    game.getGrid()[x][y].setHovered(false);
             }
 
         }

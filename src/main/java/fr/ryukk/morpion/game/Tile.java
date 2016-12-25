@@ -24,7 +24,7 @@ public final class Tile {
         this.hovered = false;
     }
 
-    public void paint(Graphics2D g2d) {
+    public void paintComponent(Graphics2D g2d) {
         int gridSize = WINDOW_HEIGHT - 40;
 
         int x = 20 + this.x * (gridSize / 3) + 30;
@@ -58,6 +58,21 @@ public final class Tile {
                 break;
         }
 
+    }
+
+    public void update() {
+        int gridSize = WINDOW_HEIGHT - 40;
+
+        int minX = 20 + x * (gridSize / 3);
+        int maxX = 20 + (x + 1) * (gridSize / 3);
+
+        int minY = 20 + y * (gridSize / 3);
+        int maxY = 20 + (y + 1) * (gridSize / 3);
+
+        if(minX < mX && mX <= maxX && minY < mY && mY <= maxY)
+            game.getGrid()[x][y].setHovered(true);
+        else
+            game.getGrid()[x][y].setHovered(false);
     }
 
     public int getX() { return x; }
