@@ -40,6 +40,8 @@ public final class Game {
     }
 
     public void start() {
+        updateTiles();
+
         while(winner == -1) {
             players[playerTurn].turn();
 
@@ -101,6 +103,12 @@ public final class Game {
             if(finished) winner = 2;
         }
 
+    }
+
+    public void updateTiles() {
+        for(int x = 0; x < 3; x++)
+            for(int y = 0; y < 3; y++)
+                getGrid()[x][y].update();
     }
 
     public Tile[][] getGrid() { return grid; }

@@ -6,6 +6,8 @@ import fr.ryukk.morpion.game.Tile;
 import fr.ryukk.morpion.game.player.HumanPlayer;
 import fr.ryukk.morpion.game.player.Player;
 
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
@@ -26,18 +28,7 @@ public class MouseInteractListener implements MouseListener, MouseMotionListener
 
     @Override
     public void mouseMoved(MouseEvent e) {
-        int mX = e.getX();
-        int mY = e.getY();
-
-        Game game = Morpion.game();
-
-        for(int x = 0; x < 3; x++) {
-            for(int y = 0; y < 3; y++) {
-
-            }
-
-        }
-
+        Morpion.game().updateTiles();
         Morpion.window().repaint();
     }
 

@@ -179,8 +179,6 @@ public final class GamePanel extends JPanel {
         } else {
             g2d.setStroke(LINE_STROKE);
 
-            System.out.println("Render");
-
             if (game.getPlayerTurn().getTileType().equals(Tile.TileType.X)) {
                 g2d.setColor(X_COLOR);
                 UtilDraw.drawCross(g2d, WINDOW_HEIGHT + (baseX / 2) - (TURN_SHAPE_SIZE / 2), TURN_Y_OFFSET, TURN_SHAPE_SIZE);

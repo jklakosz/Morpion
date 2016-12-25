@@ -5,7 +5,7 @@ import fr.ryukk.morpion.game.Tile;
 
 public class HumanPlayer extends Player {
 
-    private volatile boolean waitingToPlay;
+    private boolean waitingToPlay;
 
     public HumanPlayer(String name, Tile.TileType type) {
         super(name, type);

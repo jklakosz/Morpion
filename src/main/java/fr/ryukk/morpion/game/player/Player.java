@@ -6,7 +6,7 @@ public abstract class Player {
 
     protected String name;
 
-    protected PlayerType playerType;
+    protected volatile PlayerType playerType;
     protected volatile Tile.TileType tileType;
 
     private volatile int victory;

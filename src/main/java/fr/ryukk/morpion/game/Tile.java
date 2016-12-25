@@ -3,6 +3,7 @@ package fr.ryukk.morpion.game;
 import fr.ryukk.morpion.Morpion;
 import fr.ryukk.morpion.game.player.Player;
 import fr.ryukk.morpion.utils.UtilDraw;
+import fr.ryukk.morpion.utils.UtilMouse;
 
 import java.awt.*;
 
@@ -11,7 +12,7 @@ import static fr.ryukk.morpion.utils.Constants.*;
 public final class Tile {
 
     private int x, y;
-    private TileType tileType;
+    private volatile TileType tileType;
 
     private boolean hovered;
 
@@ -61,7 +62,12 @@ public final class Tile {
     }
 
     public void update() {
+        Game game = Morpion.game();
+
         int gridSize = WINDOW_HEIGHT - 40;
+
+        double mX = UtilMouse.getMousePoint().getX();
+        double mY = UtilMouse.getMousePoint().getY();
 
         int minX = 20 + x * (gridSize / 3);
         int maxX = 20 + (x + 1) * (gridSize / 3);
