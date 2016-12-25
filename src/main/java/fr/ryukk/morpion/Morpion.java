@@ -28,7 +28,7 @@ public final class Morpion {
         Player[] players = new Player[2];
 
         players[0] = new HumanPlayer("George Sand", Tile.TileType.O);
-        players[1] = new HumanPlayer("Thierry Micheaux", Tile.TileType.X);
+        players[1] = new HumanPlayer("Isaac Newton", Tile.TileType.X);
 
         window = new Window();
         game = new Game(players);

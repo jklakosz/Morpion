@@ -107,6 +107,7 @@ public final class Game {
     public Player[] getPlayers() { return players; }
 
     public Player getPlayerTurn() { return players[playerTurn]; }
+    public Player getWinner() { return winner >= 0 && winner < 2 ? players[winner] : null; }
 
     public Player getPlayerByTileType(Tile.TileType tileType) {
         if(players[0].getTileType().equals(tileType))

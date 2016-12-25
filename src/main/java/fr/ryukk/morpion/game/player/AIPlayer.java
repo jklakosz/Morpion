@@ -2,11 +2,11 @@ package fr.ryukk.morpion.game.player;
 
 import fr.ryukk.morpion.game.Tile;
 
-public class IAPlayer extends Player {
+public class AIPlayer extends Player {
 
-    public IAPlayer(Tile.TileType type) {
+    public AIPlayer(Tile.TileType type) {
         super("Alfred De Musset", type);
-        this.playerType = Player.PlayerType.IA;
+        this.playerType = Player.PlayerType.AI;
     }
 
     @Override

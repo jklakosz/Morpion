@@ -87,7 +87,7 @@ public final class GamePanel extends JPanel {
                 70);
 
         // Players shapes, names & types
-        for(int i = 0; i < 2; i++) {
+        for (int i = 0; i < 2; i++) {
             // Vars
             Player p = players[i];
 
@@ -100,9 +100,9 @@ public final class GamePanel extends JPanel {
             g2d.setFont(TYPE_FONT);
             int typeLength = g2d.getFontMetrics().stringWidth(type);
 
-            int totalLength = PLAYERS_SHAPE_SIZE + PLAYERS_SHAPE_NAME_X_OFFSET + nameLength + PLAYERS_NAME_TYPE_X_OFFSET
+            int playerTotalLength = PLAYERS_SHAPE_SIZE + PLAYERS_SHAPE_NAME_X_OFFSET + nameLength + PLAYERS_NAME_TYPE_X_OFFSET
                     + typeLength;
-            int posX = WINDOW_HEIGHT + (baseX / 2) - (totalLength / 2);
+            int posX = WINDOW_HEIGHT + (baseX / 2) - (playerTotalLength / 2);
             int relativeYOffset = i * NAME_FONT.getSize() * 2;
 
             // Names
@@ -130,12 +130,11 @@ public final class GamePanel extends JPanel {
             // Shapes
             g2d.setStroke(MINI_LINE_STROKE);
 
-            if(p.getTileType().equals(Tile.TileType.X)) {
+            if (p.getTileType().equals(Tile.TileType.X)) {
                 g2d.setColor(X_COLOR);
                 UtilDraw.drawCross(g2d, posX, PLAYERS_Y_OFFSET - (PLAYERS_SHAPE_SIZE / 2) + relativeYOffset,
                         PLAYERS_SHAPE_SIZE);
-            }
-            else {
+            } else {
                 g2d.setColor(O_COLOR);
                 UtilDraw.drawCircle(g2d, posX, PLAYERS_Y_OFFSET - (PLAYERS_SHAPE_SIZE / 2) + relativeYOffset,
                         PLAYERS_SHAPE_SIZE);
@@ -144,8 +143,8 @@ public final class GamePanel extends JPanel {
         }
 
         // Players scores
-        String[] scores = new String[] { String.valueOf(game.getPlayers()[0].getVictoryCount()),
-                String.valueOf(game.getPlayers()[1].getVictoryCount()) };
+        String[] scores = new String[]{String.valueOf(game.getPlayers()[0].getVictoryCount()),
+                String.valueOf(game.getPlayers()[1].getVictoryCount())};
 
         String separator = "-";
 
@@ -153,23 +152,44 @@ public final class GamePanel extends JPanel {
         FontMetrics fm = g2d.getFontMetrics();
 
         int separatorLength = fm.stringWidth(separator);
-        int totalLength = fm.stringWidth(scores[0]) + fm.stringWidth(scores[1]) + separatorLength
+        int scoreTotalLength = fm.stringWidth(scores[0]) + fm.stringWidth(scores[1]) + separatorLength
                 + (2 * SCORES_SEPARATOR_OFFSET);
 
         g2d.setColor(SEPARATOR_FONT_COLOR);
         g2d.drawString(separator, WINDOW_HEIGHT + (baseX / 2) - (separatorLength / 2), SCORES_Y_OFFSET);
 
-        for(int i = 0; i < 2; i++) {
+        for (int i = 0; i < 2; i++) {
             g2d.setColor(players[i].getTileType().equals(Tile.TileType.X) ? X_COLOR : O_COLOR);
 
             int temp = 0;
-            if(i - 1 >= 0)
-                for(int j = i - 1; j >= 0; j--)
+            if (i - 1 >= 0)
+                for (int j = i - 1; j >= 0; j--)
                     temp += fm.stringWidth(scores[j]);
 
             int relativeXOffset = i * (separatorLength + (SCORES_SEPARATOR_OFFSET * 2)) + temp;
 
-            g2d.drawString(scores[i], WINDOW_HEIGHT + (baseX / 2) - (totalLength / 2) + relativeXOffset, SCORES_Y_OFFSET);
+            g2d.drawString(scores[i], WINDOW_HEIGHT + (baseX / 2) - (scoreTotalLength / 2) + relativeXOffset,
+                    SCORES_Y_OFFSET);
+        }
+
+        //
+        if (game.getWinner() != null) {
+
+
+        } else {
+            g2d.setStroke(LINE_STROKE);
+
+            System.out.println("Render");
+
+            if (game.getPlayerTurn().getTileType().equals(Tile.TileType.X)) {
+                g2d.setColor(X_COLOR);
+                UtilDraw.drawCross(g2d, WINDOW_HEIGHT + (baseX / 2) - (TURN_SHAPE_SIZE / 2), TURN_Y_OFFSET, TURN_SHAPE_SIZE);
+            }
+            else{
+                g2d.setColor(O_COLOR);
+                UtilDraw.drawCircle(g2d, WINDOW_HEIGHT + (baseX / 2) - (TURN_SHAPE_SIZE / 2), TURN_Y_OFFSET, TURN_SHAPE_SIZE);
+            }
+
         }
 
     }

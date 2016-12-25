@@ -34,6 +34,7 @@ public final class Constants {
     public static final Color TYPE_FONT_COLOR = Color.WHITE;
     public static final Color SEPARATOR_FONT_COLOR = new Color(180, 180, 180, 255);
 
+
     // Strokes
     public static final Stroke BASIC_STROKE = new BasicStroke(1);
     public static final Stroke LINE_STROKE = new BasicStroke(13);
@@ -48,5 +49,8 @@ public final class Constants {
 
     public static final int SCORES_SEPARATOR_OFFSET = 20;
     public static final int SCORES_Y_OFFSET = 250;
+
+    public static final int TURN_Y_OFFSET = 320;
+    public static final int TURN_SHAPE_SIZE = 150;
 
 }

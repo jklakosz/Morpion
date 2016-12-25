@@ -9,8 +9,10 @@ public class HumanPlayer extends Player {
 
     public HumanPlayer(String name, Tile.TileType type) {
         super(name, type);
-        this.playerType = PlayerType.HUMAN;
 
+        assert name.length() <= 16 : "Name is too big";
+
+        playerType = PlayerType.HUMAN;
         waitingToPlay = false;
     }
 

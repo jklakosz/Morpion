@@ -13,7 +13,6 @@ public abstract class Player {
 
     public Player(String name, Tile.TileType tileType) {
         this.name = name;
-
         this.tileType = tileType;
     }
 
@@ -28,9 +27,9 @@ public abstract class Player {
     public void addVictory() { victory++; }
 
     public enum PlayerType {
-        HUMAN("Human"),
-        IA("IA"),
-        REMOTE_HUMAN("Remote human");
+        HUMAN("Humain"),
+        AI("IA"),
+        REMOTE_HUMAN("Humain distant");
 
         private String name;
 
