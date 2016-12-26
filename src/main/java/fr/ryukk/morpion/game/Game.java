@@ -8,7 +8,7 @@ import fr.ryukk.morpion.utils.Serie;
 
 public final class Game {
 
-    private volatile Tile[][] grid;
+    private Tile[][] grid;
 
     private Player[] players;
     private byte playerTurn;
@@ -40,7 +40,7 @@ public final class Game {
     }
 
     public void start() {
-        updateTiles();
+        updateGrid();
 
         while(winner == -1) {
             players[playerTurn].turn();
@@ -80,8 +80,6 @@ public final class Game {
 
         winner = -1;
 
-        Morpion.window().repaint();
-
         start();
     }
 
@@ -105,21 +103,17 @@ public final class Game {
 
     }
 
-    public void updateTiles() {
+    public void updateGrid() {
         for(int x = 0; x < 3; x++)
             for(int y = 0; y < 3; y++)
                 getGrid()[x][y].update();
-        System.out.println(Math.random() + "Update: " + Thread.currentThread().getId());
-
-        Morpion.window().repaint();
     }
 
     public Tile[][] getGrid() { return grid; }
-    public Player[] getPlayers() { return players; }
 
+    public Player[] getPlayers() { return players; }
     public Player getPlayerTurn() { return players[playerTurn]; }
     public Player getWinner() { return winner >= 0 && winner < 2 ? players[winner] : null; }
-
     public Player getPlayerByTileType(Tile.TileType tileType) {
         if(players[0].getTileType().equals(tileType))
             return players[0];

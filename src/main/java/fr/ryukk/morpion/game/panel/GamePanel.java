@@ -19,14 +19,11 @@ public final class GamePanel extends JPanel {
         MouseInteractListener listener = new MouseInteractListener();
 
         addMouseListener(listener);
-        addMouseMotionListener(listener);
     }
 
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-
-        System.out.println("Render: " + Thread.currentThread().getId());
 
         Graphics2D g2d = (Graphics2D) g;
 

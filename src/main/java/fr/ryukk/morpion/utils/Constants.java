@@ -53,4 +53,8 @@ public final class Constants {
     public static final int TURN_Y_OFFSET = 320;
     public static final int TURN_SHAPE_SIZE = 150;
 
+    public static final double TICK_TIME = Math.pow(10,9) / 60d;
+    public static final double FRAME_TIME = Math.pow(10,9) / 120d;
+
+
 }

@@ -1,6 +1,7 @@
 package fr.ryukk.morpion;
 
 import fr.ryukk.morpion.game.Game;
+import fr.ryukk.morpion.game.GameThread;
 import fr.ryukk.morpion.game.Tile;
 import fr.ryukk.morpion.game.player.HumanPlayer;
 import fr.ryukk.morpion.game.player.Player;
@@ -24,6 +25,8 @@ public final class Morpion {
     private static Window window;
     private static Game game;
 
+    private static GameThread gameThread;
+
     private void start() {
         Player[] players = new Player[2];
 
@@ -32,6 +35,8 @@ public final class Morpion {
 
         window = new Window();
         game = new Game(players);
+        gameThread = new GameThread();
+        gameThread.start();
 
         game.view();
         game.start();

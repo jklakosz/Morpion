@@ -2,8 +2,8 @@ package fr.ryukk.morpion.game;
 
 import fr.ryukk.morpion.Morpion;
 import fr.ryukk.morpion.game.player.Player;
+import fr.ryukk.morpion.utils.Mouse;
 import fr.ryukk.morpion.utils.UtilDraw;
-import fr.ryukk.morpion.utils.UtilMouse;
 
 import java.awt.*;
 
@@ -66,8 +66,10 @@ public final class Tile {
 
         int gridSize = WINDOW_HEIGHT - 40;
 
-        double mX = UtilMouse.getMousePoint().getX();
-        double mY = UtilMouse.getMousePoint().getY();
+        Mouse mouse = Mouse.singletone();
+
+        double mX = mouse.getX();
+        double mY = mouse.getY();
 
         int minX = 20 + x * (gridSize / 3);
         int maxX = 20 + (x + 1) * (gridSize / 3);
