@@ -25,6 +25,7 @@ public class HumanPlayer extends Player {
         while(waitingToPlay)
             if(x >= 0 && y >= 0) {
                 Morpion.game().getGrid()[x][y].setTileType(tileType);
+                System.out.println("SET");
                 waitingToPlay = false;
             }
 

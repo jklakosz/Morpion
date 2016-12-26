@@ -12,7 +12,7 @@ import static fr.ryukk.morpion.utils.Constants.*;
 public final class Tile {
 
     private int x, y;
-    private volatile TileType tileType;
+    private TileType tileType;
 
     private boolean hovered;
 

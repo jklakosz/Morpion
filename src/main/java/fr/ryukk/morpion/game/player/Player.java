@@ -6,10 +6,10 @@ public abstract class Player {
 
     protected String name;
 
-    protected volatile PlayerType playerType;
-    protected volatile Tile.TileType tileType;
+    protected PlayerType playerType;
+    protected Tile.TileType tileType;
 
-    private volatile int victory;
+    private int victory;
 
     public Player(String name, Tile.TileType tileType) {
         this.name = name;

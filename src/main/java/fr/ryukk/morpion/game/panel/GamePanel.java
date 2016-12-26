@@ -26,6 +26,8 @@ public final class GamePanel extends JPanel {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
 
+        System.out.println("Render: " + Thread.currentThread().getId());
+
         Graphics2D g2d = (Graphics2D) g;
 
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
@@ -168,13 +170,11 @@ public final class GamePanel extends JPanel {
 
             int relativeXOffset = i * (separatorLength + (SCORES_SEPARATOR_OFFSET * 2)) + temp;
 
-            g2d.drawString(scores[i], WINDOW_HEIGHT + (baseX / 2) - (scoreTotalLength / 2) + relativeXOffset,
+            g2d.drawString(scores[i], WINDOW_HEIGHT + (baseX / 2) - (scoreTotalLength  / 2) + relativeXOffset,
                     SCORES_Y_OFFSET);
         }
 
-        //
         if (game.getWinner() != null) {
-
 
         } else {
             g2d.setStroke(LINE_STROKE);

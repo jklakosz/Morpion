@@ -8,7 +8,7 @@ import fr.ryukk.morpion.utils.Serie;
 
 public final class Game {
 
-    private Tile[][] grid;
+    private volatile Tile[][] grid;
 
     private Player[] players;
     private byte playerTurn;
@@ -109,6 +109,9 @@ public final class Game {
         for(int x = 0; x < 3; x++)
             for(int y = 0; y < 3; y++)
                 getGrid()[x][y].update();
+        System.out.println(Math.random() + "Update: " + Thread.currentThread().getId());
+
+        Morpion.window().repaint();
     }
 
     public Tile[][] getGrid() { return grid; }
