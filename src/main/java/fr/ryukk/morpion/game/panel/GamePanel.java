@@ -171,11 +171,9 @@ public final class GamePanel extends JPanel {
                     SCORES_Y_OFFSET);
         }
 
-        if (game.getWinner() != null) {
+        g2d.setStroke(LINE_STROKE);
 
-        } else {
-            g2d.setStroke(LINE_STROKE);
-
+        if (game.isPlaying()) {
             if (game.getPlayerTurn().getTileType().equals(Tile.TileType.X)) {
                 g2d.setColor(X_COLOR);
                 UtilDraw.drawCross(g2d, WINDOW_HEIGHT + (baseX / 2) - (TURN_SHAPE_SIZE / 2), TURN_Y_OFFSET, TURN_SHAPE_SIZE);
@@ -183,6 +181,38 @@ public final class GamePanel extends JPanel {
             else{
                 g2d.setColor(O_COLOR);
                 UtilDraw.drawCircle(g2d, WINDOW_HEIGHT + (baseX / 2) - (TURN_SHAPE_SIZE / 2), TURN_Y_OFFSET, TURN_SHAPE_SIZE);
+            }
+
+        }
+        else {
+            if(game.getWinner() == null) {
+                g2d.setFont(WIN_FONT);
+                g2d.setColor(WIN_TIE_FONT_COLOR);
+
+                String tie = "MATCH NUL";
+
+                g2d.drawString(tie, WINDOW_HEIGHT + (baseX / 2) - (g2d.getFontMetrics().stringWidth(tie) / 2)
+                        , WIN_TIE_Y_OFFSET);
+
+            }
+            else {
+                if(game.getWinner().getTileType().equals(Tile.TileType.X)) {
+                    g2d.setColor(X_COLOR);
+                    UtilDraw.drawCross(g2d, WINDOW_HEIGHT + (baseX / 2) - (WIN_SHAPE_SIZE / 2), TURN_Y_OFFSET, WIN_SHAPE_SIZE);
+                }
+                else {
+                    g2d.setColor(O_COLOR);
+                    UtilDraw.drawCircle(g2d, WINDOW_HEIGHT + (baseX / 2) - (WIN_SHAPE_SIZE / 2), TURN_Y_OFFSET, WIN_SHAPE_SIZE);
+                }
+
+                g2d.setFont(WIN_FONT);
+                g2d.setColor(WIN_TIE_FONT_COLOR);
+
+                String win = "GAGNE";
+
+                g2d.drawString(win, WINDOW_HEIGHT + (baseX / 2) - (g2d.getFontMetrics().stringWidth(win) / 2)
+                        , WIN_Y_OFFSET);
+
             }
 
         }

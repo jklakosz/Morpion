@@ -2,8 +2,8 @@ package fr.ryukk.morpion.game;
 
 import fr.ryukk.morpion.Morpion;
 import fr.ryukk.morpion.game.player.Player;
-import fr.ryukk.morpion.utils.Mouse;
 import fr.ryukk.morpion.utils.UtilDraw;
+import fr.ryukk.morpion.utils.UtilMouse;
 
 import java.awt.*;
 
@@ -15,14 +15,16 @@ public final class Tile {
     private TileType tileType;
 
     private boolean hovered;
+    private boolean clicked;
 
     public Tile(int x, int y) {
         this.x = x;
         this.y = y;
 
-        this.tileType = TileType.NONE;
+        tileType = TileType.NONE;
 
-        this.hovered = false;
+        hovered = false;
+        clicked = false;
     }
 
     public void paintComponent(Graphics2D g2d) {
@@ -37,7 +39,7 @@ public final class Tile {
 
         if(hovered && game.getPlayerTurn().getPlayerType().equals(Player.PlayerType.HUMAN) && game.isPlaying()) {
             if(tileType.equals(TileType.NONE))
-                g2d.setColor(HOVER_NONE_COLOR);
+                g2d.setColor(clicked ? CLICKED_NONE_COLOR : HOVER_NONE_COLOR);
             else if(tileType.equals(Morpion.game().getPlayerTurn().getTileType()))
                 g2d.setColor(HOVER_FRIEND_COLOR);
             else
@@ -66,7 +68,7 @@ public final class Tile {
 
         int gridSize = WINDOW_HEIGHT - 40;
 
-        Mouse mouse = Mouse.singletone();
+        Point mouse = UtilMouse.getPointerLocation();
 
         double mX = mouse.getX();
         double mY = mouse.getY();
@@ -91,6 +93,9 @@ public final class Tile {
 
     public void setHovered(boolean hovered) { this.hovered = hovered; }
     public boolean isHovered() { return hovered; }
+
+    public void setClicked(boolean clicked) { this.clicked = clicked; }
+    public boolean isClicked() { return clicked; }
 
     public enum TileType {
         NONE,
