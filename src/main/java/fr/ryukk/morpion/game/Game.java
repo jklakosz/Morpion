@@ -15,6 +15,8 @@ public final class Game {
 
     private int winner;
 
+    private boolean debug;
+
     public Game(Player[] players) {
         grid = new Tile[3][3];
         for(int x = 0; x < 3; x++)
@@ -29,6 +31,8 @@ public final class Game {
 
         playerTurn = 0;
         winner = -1;
+
+        debug = false;
     }
 
     public void view() {
@@ -122,5 +126,11 @@ public final class Game {
     }
 
     public boolean isPlaying() { return winner == -1; }
+
+    public void toggleDebug() {
+        System.out.println("Debug: " + debug);
+        debug = !debug;
+    }
+    public boolean isDebugActive() { return debug; }
 
 }

@@ -15,6 +15,7 @@ public final class Constants {
     public static final Font TYPE_FONT = new Font("Verdana", Font.PLAIN, 10);
     public static final Font SCORE_FONT = new Font("Verdana", Font.PLAIN, 36);
     public static final Font WIN_FONT = new Font("Verdana", Font.PLAIN, 38);
+    public static final Font DEBUG_FONT = new Font("Consolas", Font.BOLD, 16);
 
 
     // Colors
@@ -36,6 +37,7 @@ public final class Constants {
     public static final Color TYPE_FONT_COLOR = Color.WHITE;
     public static final Color SEPARATOR_FONT_COLOR = new Color(180, 180, 180, 255);
     public static final Color WIN_TIE_FONT_COLOR = new Color(130, 90, 37, 255);
+    public static final Color DEBUG_FONT_COLOR = new Color(0, 150, 0, 255);
 
 
     // Strokes
@@ -60,6 +62,10 @@ public final class Constants {
     public static final int WIN_TIE_Y_OFFSET = 400;
     public static final int WIN_Y_OFFSET = 490;
 
+    public static final int DEBUG_Y_OFFSET = 20;
+
+
+    // Update & render settings
     public static final double TICK_TIME = Math.pow(10,9) / 60d;
     public static final double FRAME_TIME = Math.pow(10,9) / 120d;
 

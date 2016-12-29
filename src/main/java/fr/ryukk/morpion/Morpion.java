@@ -51,5 +51,6 @@ public final class Morpion {
 
     public static Window window() { return window; }
     public static Game game() { return game; }
+    public static GameThread gameThread() { return gameThread; }
 
 }

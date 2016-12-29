@@ -2,7 +2,9 @@ package fr.ryukk.morpion.game.panel;
 
 import fr.ryukk.morpion.Morpion;
 import fr.ryukk.morpion.game.Game;
+import fr.ryukk.morpion.game.GameThread;
 import fr.ryukk.morpion.game.Tile;
+import fr.ryukk.morpion.game.listener.KeyboardInteractListener;
 import fr.ryukk.morpion.game.listener.MouseInteractListener;
 import fr.ryukk.morpion.game.player.Player;
 import fr.ryukk.morpion.utils.UtilDraw;
@@ -16,10 +18,10 @@ import static fr.ryukk.morpion.utils.Constants.*;
 public final class GamePanel extends JPanel {
 
     public GamePanel() {
-        MouseInteractListener listener = new MouseInteractListener();
-
-        addMouseListener(listener);
+        addMouseListener(new MouseInteractListener());
+        KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher(new KeyboardInteractListener());
     }
+
 
     @Override
     public void paintComponent(Graphics g) {
@@ -171,6 +173,7 @@ public final class GamePanel extends JPanel {
                     SCORES_Y_OFFSET);
         }
 
+        // Player turn & win
         g2d.setStroke(LINE_STROKE);
 
         if (game.isPlaying()) {
@@ -193,7 +196,6 @@ public final class GamePanel extends JPanel {
 
                 g2d.drawString(tie, WINDOW_HEIGHT + (baseX / 2) - (g2d.getFontMetrics().stringWidth(tie) / 2)
                         , WIN_TIE_Y_OFFSET);
-
             }
             else {
                 if(game.getWinner().getTileType().equals(Tile.TileType.X)) {
@@ -212,9 +214,28 @@ public final class GamePanel extends JPanel {
 
                 g2d.drawString(win, WINDOW_HEIGHT + (baseX / 2) - (g2d.getFontMetrics().stringWidth(win) / 2)
                         , WIN_Y_OFFSET);
-
             }
 
+        }
+
+
+        // FPS & TPS
+        if(game.isDebugActive()) {
+            g2d.setColor(DEBUG_FONT_COLOR);
+            g2d.setFont(DEBUG_FONT);
+
+            GameThread thread = Morpion.gameThread();
+
+            String fps = "FPS: " + thread.getFPS();
+            String tps = "TPS: " + thread.getTPS();
+
+            int base = WINDOW_WIDTH - 5;
+
+            int fpsX = base - g2d.getFontMetrics().stringWidth(fps);
+            int tpsX = base - g2d.getFontMetrics().stringWidth(tps);
+
+            g2d.drawString(fps, fpsX, DEBUG_Y_OFFSET);
+            g2d.drawString(tps, tpsX, DEBUG_Y_OFFSET + g2d.getFont().getSize());
         }
 
     }

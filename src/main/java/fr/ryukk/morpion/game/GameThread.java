@@ -53,8 +53,6 @@ public class GameThread extends Thread {
                 fps = frames;
                 tps = ticks;
 
-                Morpion.window().setTitle("Morpion - FPS: " + fps + " TPS: " + tps);
-
                 ticks = frames = 0;
             }
 
@@ -71,5 +69,8 @@ public class GameThread extends Thread {
         if(Morpion.game() != null)
             Morpion.game().updateGrid();
     }
+
+    public int getFPS() { return fps; }
+    public int getTPS() { return tps; }
 
 }
