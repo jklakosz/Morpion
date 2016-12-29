@@ -1,17 +1,17 @@
-package fr.ryukk.morpion.game;
+package fr.ryukk.morpion;
 
 import fr.ryukk.morpion.Morpion;
 
 import static fr.ryukk.morpion.utils.Constants.*;
 
-public class GameThread extends Thread {
+public class ScreenHandler extends Thread {
 
     private boolean running;
 
     private int fps;
     private int tps;
 
-    public GameThread() {
+    public ScreenHandler() {
         running = false;
     }
 
@@ -66,8 +66,8 @@ public class GameThread extends Thread {
     }
 
     public void update() {
-        if(Morpion.game() != null)
-            Morpion.game().updateGrid();
+        if(Morpion.view() != null)
+            Morpion.view().update();
     }
 
     public int getFPS() { return fps; }

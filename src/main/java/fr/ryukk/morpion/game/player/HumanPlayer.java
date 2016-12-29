@@ -1,6 +1,7 @@
 package fr.ryukk.morpion.game.player;
 
 import fr.ryukk.morpion.Morpion;
+import fr.ryukk.morpion.game.Game;
 import fr.ryukk.morpion.game.Tile;
 
 public class HumanPlayer extends Player {
@@ -20,16 +21,21 @@ public class HumanPlayer extends Player {
 
     @Override
     public void turn() {
-        waitingToPlay = true;
+        if(Morpion.view() instanceof Game) {
+            Game game = (Game) Morpion.view();
 
-        while(waitingToPlay)
-            if(x >= 0 && y >= 0) {
-                Morpion.game().getGrid()[x][y].setTileType(tileType);
-                waitingToPlay = false;
-            }
+            waitingToPlay = true;
 
-        x = -1;
-        y = -1;
+            while(waitingToPlay)
+                if(x >= 0 && y >= 0) {
+                    game.getGrid()[x][y].setTileType(tileType);
+                    waitingToPlay = false;
+                }
+
+            x = -1;
+            y = -1;
+        }
+
     }
 
     public void playerClick(int x, int y) {

@@ -62,6 +62,7 @@ public final class Constants {
     public static final int WIN_TIE_Y_OFFSET = 400;
     public static final int WIN_Y_OFFSET = 490;
 
+    public static final int DEBUG_X_OFFSET = 7;
     public static final int DEBUG_Y_OFFSET = 20;
 
 

@@ -27,7 +27,7 @@ public final class Tile {
         clicked = false;
     }
 
-    public void paintComponent(Graphics2D g2d) {
+    public void paintComponent(Game game, Graphics2D g2d) {
         int gridSize = WINDOW_HEIGHT - 40;
 
         int x = 20 + this.x * (gridSize / 3) + 30;
@@ -35,12 +35,10 @@ public final class Tile {
 
         int size = (gridSize / 3) - 60;
 
-        Game game = Morpion.game();
-
-        if(hovered && game.getPlayerTurn().getPlayerType().equals(Player.PlayerType.HUMAN) && game.isPlaying()) {
+        if(hovered && game.getPlayerTurn().getPlayerType().equals(Player.PlayerType.HUMAN) && !game.isFinished()) {
             if(tileType.equals(TileType.NONE))
                 g2d.setColor(clicked ? CLICKED_NONE_COLOR : HOVER_NONE_COLOR);
-            else if(tileType.equals(Morpion.game().getPlayerTurn().getTileType()))
+            else if(tileType.equals(game.getPlayerTurn().getTileType()))
                 g2d.setColor(HOVER_FRIEND_COLOR);
             else
                 g2d.setColor(HOVER_ENNEMY_COLOR);
@@ -63,9 +61,7 @@ public final class Tile {
 
     }
 
-    public void update() {
-        Game game = Morpion.game();
-
+    public void update(Game game) {
         int gridSize = WINDOW_HEIGHT - 40;
 
         Point mouse = UtilMouse.getPointerLocation();

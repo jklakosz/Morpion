@@ -13,28 +13,35 @@ public class MouseInteractListener implements MouseListener {
 
     @Override
     public void mousePressed(MouseEvent e) {
-        Game game = Morpion.game();
+        if(Morpion.view() instanceof Game) {
+            Game game = (Game) Morpion.view();
 
-        if(game.getPlayerTurn().getPlayerType().equals(Player.PlayerType.HUMAN))
-            for(int x = 0; x < 3; x++)
-                for(int y = 0; y < 3; y++)
-                    if (game.getGrid()[x][y].isHovered())
-                        game.getGrid()[x][y].setClicked(true);
+            if(game.getPlayerTurn().getPlayerType().equals(Player.PlayerType.HUMAN))
+                for(int x = 0; x < 3; x++)
+                    for(int y = 0; y < 3; y++)
+                        if(game.getGrid()[x][y].isHovered())
+                            game.getGrid()[x][y].setClicked(true);
+        }
+
     }
 
     @Override
     public void mouseReleased(MouseEvent e) {
-        Game game = Morpion.game();
+        if(Morpion.view() instanceof Game) {
+            Game game = (Game) Morpion.view();
 
-        if(game.getPlayerTurn().getPlayerType().equals(Player.PlayerType.HUMAN))
-            for(int x = 0; x < 3; x++)
-                for(int y = 0; y < 3; y++) {
-                    if (game.getGrid()[x][y].isHovered() && game.getGrid()[x][y].isClicked())
-                        if (Morpion.game().getGrid()[x][y].getTileType().equals(Tile.TileType.NONE))
-                            ((HumanPlayer) Morpion.game().getPlayerTurn()).playerClick(x, y);
+            if(game.getPlayerTurn().getPlayerType().equals(Player.PlayerType.HUMAN))
+                for(int x = 0; x < 3; x++)
+                    for(int y = 0; y < 3; y++) {
+                        if(game.getGrid()[x][y].isHovered() && game.getGrid()[x][y].isClicked())
+                            if(game.getGrid()[x][y].getTileType().equals(Tile.TileType.NONE))
+                                ((HumanPlayer) game.getPlayerTurn()).playerClick(x, y);
 
-                    Morpion.game().getGrid()[x][y].setClicked(false);
-                }
+                        game.getGrid()[x][y].setClicked(false);
+                    }
+
+        }
+
     }
 
     @Override public void mouseClicked(MouseEvent e) { }

@@ -1,10 +1,10 @@
 package fr.ryukk.morpion;
 
 import fr.ryukk.morpion.game.Game;
-import fr.ryukk.morpion.game.GameThread;
 import fr.ryukk.morpion.game.Tile;
 import fr.ryukk.morpion.game.player.HumanPlayer;
 import fr.ryukk.morpion.game.player.Player;
+import fr.ryukk.morpion.utils.View;
 
 /**
  *  @author ryukk
@@ -23,9 +23,11 @@ public final class Morpion {
     private static Morpion instance;
 
     private static Window window;
-    private static Game game;
+    private static View view;
 
-    private static GameThread gameThread;
+    private static ScreenHandler screenHandler;
+
+    private static boolean debug;
 
     private void start() {
         Player[] players = new Player[2];
@@ -34,12 +36,14 @@ public final class Morpion {
         players[1] = new HumanPlayer("Isaac Newton", Tile.TileType.X);
 
         window = new Window();
-        game = new Game(players);
-        gameThread = new GameThread();
-        gameThread.start();
+        view = new Game(players);
 
-        game.view();
-        game.start();
+        screenHandler = new ScreenHandler();
+        screenHandler.start();
+
+        window.switchView(view);
+
+        ((Game) view).start();
     }
 
     public static void main(String[] args) {
@@ -50,7 +54,10 @@ public final class Morpion {
     public static Morpion instance() { return instance; }
 
     public static Window window() { return window; }
-    public static Game game() { return game; }
-    public static GameThread gameThread() { return gameThread; }
+    public static View view() { return view; }
+    public static ScreenHandler screenHandler() { return screenHandler; }
+
+    public static void toggleDebug() { debug = !debug; }
+    public static boolean isDebugActive() { return debug; }
 
 }
