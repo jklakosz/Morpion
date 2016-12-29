@@ -30,26 +30,4 @@ public final class Window extends JFrame {
         repaint();
     }
 
-    public void render(Graphics2D g2d) {
-        // FPS & TPS
-        if(Morpion.isDebugActive()) {
-            g2d.setColor(DEBUG_FONT_COLOR);
-            g2d.setFont(DEBUG_FONT);
-
-            ScreenHandler thread = Morpion.screenHandler();
-
-            String fps = "FPS: " + thread.getFPS();
-            String tps = "TPS: " + thread.getTPS();
-
-            int base = WINDOW_WIDTH - DEBUG_X_OFFSET;
-
-            int fpsX = base - g2d.getFontMetrics().stringWidth(fps);
-            int tpsX = base - g2d.getFontMetrics().stringWidth(tps);
-
-            g2d.drawString(fps, fpsX, DEBUG_Y_OFFSET);
-            g2d.drawString(tps, tpsX, DEBUG_Y_OFFSET + g2d.getFont().getSize());
-        }
-
-    }
-
 }

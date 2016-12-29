@@ -1,6 +1,5 @@
 package fr.ryukk.morpion.game;
 
-import fr.ryukk.morpion.Morpion;
 import fr.ryukk.morpion.game.listener.KeyboardInteractListener;
 import fr.ryukk.morpion.game.listener.MouseInteractListener;
 import fr.ryukk.morpion.game.player.Player;
@@ -9,12 +8,15 @@ import fr.ryukk.morpion.utils.UtilDraw;
 import fr.ryukk.morpion.utils.View;
 
 import java.awt.*;
+import java.util.Random;
 
 import static fr.ryukk.morpion.utils.Constants.*;
 
 public final class Game extends View {
 
-    private Tile[][] grid;
+    private boolean started;
+
+    private Grid grid;
 
     private Player[] players;
     private byte playerTurn;
@@ -22,10 +24,14 @@ public final class Game extends View {
     private int winner;
 
     public Game(Player[] players) {
-        grid = new Tile[3][3];
+        started = false;
+
+        grid = new Grid(3, 3);
         for(int x = 0; x < 3; x++)
             for(int y = 0; y < 3; y++)
-                grid[x][y] = new Tile(x, y);
+                add(grid.get(x, y));
+
+        add(grid);
 
         this.players = players;
 
@@ -33,20 +39,26 @@ public final class Game extends View {
                 !players[0].getTileType().equals(Tile.TileType.NONE) &&
                 !players[1].getTileType().equals(Tile.TileType.NONE) : "Players cannot have the same tile type";
 
-        playerTurn = 0;
+        Random r = new Random();
+        playerTurn = (byte) r.nextInt(2);
+
         winner = -1;
 
         addMouseListener(new MouseInteractListener());
         KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher(new KeyboardInteractListener());
     }
 
+    public Game(Player[] players, byte first) {
+        this(players);
+
+        playerTurn = first;
+    }
+
     public void start() {
-        update();
+        started = true;
 
         while(winner == -1) {
             players[playerTurn].turn();
-
-            Morpion.window().repaint();
             checkWin();
 
             playerTurn = playerTurn == 0 ? (byte) 1 : 0;
@@ -58,30 +70,6 @@ public final class Game extends View {
     public void endGame() {
         if(winner >= 0 && winner < 2)
             players[winner].addVictory();
-
-        System.out.println("Game finished, starting a new one soon");
-
-        try {
-            Thread.sleep(3000);
-        }
-        catch (InterruptedException ignored) { }
-
-        reset();
-    }
-
-    /*
-        TODO: To delete
-     */
-
-    public void reset() {
-        grid = new Tile[3][3];
-        for(int x = 0; x < 3; x++)
-            for(int y = 0; y < 3; y++)
-                grid[x][y] = new Tile(x, y);
-
-        winner = -1;
-
-        start();
     }
 
     private void checkWin() {
@@ -97,18 +85,11 @@ public final class Game extends View {
 
             for(int x = 0; x < 3; x++)
                 for(int y = 0; y < 3; y++)
-                    if(grid[x][y].getTileType().equals(Tile.TileType.NONE)) finished = false;
+                    if(grid.get(x, y).getTileType().equals(Tile.TileType.NONE)) finished = false;
 
             if(finished) winner = 2;
         }
 
-    }
-
-    @Override
-    public void update() {
-        for(int x = 0; x < 3; x++)
-            for(int y = 0; y < 3; y++)
-                getGrid()[x][y].update(this);
     }
 
     @Override
@@ -120,36 +101,15 @@ public final class Game extends View {
 
         renderBackground(g2d);
         renderConfig(g2d);
-        renderGrid(g2d);
     }
+
+    @Override
+    public void update() { }
 
     private void renderBackground(Graphics2D g2d) {
         // Background
         g2d.setColor(BACKGROUND_COLOR);
         g2d.fillRect(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
-    }
-
-    private void renderGrid(Graphics2D g2d) {
-        int gridSize = WINDOW_HEIGHT - 40;
-
-        // Tiles
-        g2d.setStroke(LINE_STROKE);
-
-        for(int x = 0; x < 3; x++)
-            for(int y = 0; y < 3; y++)
-                getGrid()[x][y].paintComponent(this, g2d);
-
-        // Grid
-        g2d.setColor(GRID_COLOR);
-        g2d.drawRoundRect(20, 20, gridSize, gridSize, 5, 5);
-
-        for(int i = 1; i < 3; i++) {
-            int k = 20 + (gridSize / 3) * i;
-
-            g2d.drawLine(k, 20, k, gridSize + 20);
-            g2d.drawLine(20, k, gridSize + 20, k);
-        }
-
     }
 
     private void renderConfig(Graphics2D g2d) {
@@ -254,53 +214,50 @@ public final class Game extends View {
         // Player turn & win
         g2d.setStroke(LINE_STROKE);
 
-        if (!isFinished()) {
-            if (getPlayerTurn().getTileType().equals(Tile.TileType.X)) {
-                g2d.setColor(X_COLOR);
-                UtilDraw.drawCross(g2d, WINDOW_HEIGHT + (baseX / 2) - (TURN_SHAPE_SIZE / 2), TURN_Y_OFFSET, TURN_SHAPE_SIZE);
-            }
-            else{
-                g2d.setColor(O_COLOR);
-                UtilDraw.drawCircle(g2d, WINDOW_HEIGHT + (baseX / 2) - (TURN_SHAPE_SIZE / 2), TURN_Y_OFFSET, TURN_SHAPE_SIZE);
-            }
+        if(isStarted())
+            if (isFinished()) {
+                if(getWinner() == null) {
+                    g2d.setFont(WIN_FONT);
+                    g2d.setColor(WIN_TIE_FONT_COLOR);
 
-        }
-        else {
-            if(getWinner() == null) {
-                g2d.setFont(WIN_FONT);
-                g2d.setColor(WIN_TIE_FONT_COLOR);
+                    String tie = "MATCH NUL";
 
-                String tie = "MATCH NUL";
-
-                g2d.drawString(tie, WINDOW_HEIGHT + (baseX / 2) - (g2d.getFontMetrics().stringWidth(tie) / 2)
-                        , WIN_TIE_Y_OFFSET);
-            }
-            else {
-                if(getWinner().getTileType().equals(Tile.TileType.X)) {
-                    g2d.setColor(X_COLOR);
-                    UtilDraw.drawCross(g2d, WINDOW_HEIGHT + (baseX / 2) - (WIN_SHAPE_SIZE / 2), TURN_Y_OFFSET, WIN_SHAPE_SIZE);
+                    g2d.drawString(tie, WINDOW_HEIGHT + (baseX / 2) - (g2d.getFontMetrics().stringWidth(tie) / 2)
+                            , WIN_TIE_Y_OFFSET);
                 }
                 else {
-                    g2d.setColor(O_COLOR);
-                    UtilDraw.drawCircle(g2d, WINDOW_HEIGHT + (baseX / 2) - (WIN_SHAPE_SIZE / 2), TURN_Y_OFFSET, WIN_SHAPE_SIZE);
+                    if (getWinner().getTileType().equals(Tile.TileType.X)) {
+                        g2d.setColor(X_COLOR);
+                        UtilDraw.drawCross(g2d, WINDOW_HEIGHT + (baseX / 2) - (WIN_SHAPE_SIZE / 2), TURN_Y_OFFSET, WIN_SHAPE_SIZE);
+                    } else {
+                        g2d.setColor(O_COLOR);
+                        UtilDraw.drawCircle(g2d, WINDOW_HEIGHT + (baseX / 2) - (WIN_SHAPE_SIZE / 2), TURN_Y_OFFSET, WIN_SHAPE_SIZE);
+                    }
+
+                    g2d.setFont(WIN_FONT);
+                    g2d.setColor(WIN_TIE_FONT_COLOR);
+
+                    String win = "GAGNE";
+
+                    g2d.drawString(win, WINDOW_HEIGHT + (baseX / 2) - (g2d.getFontMetrics().stringWidth(win) / 2)
+                            , WIN_Y_OFFSET);
                 }
 
-                g2d.setFont(WIN_FONT);
-                g2d.setColor(WIN_TIE_FONT_COLOR);
-
-                String win = "GAGNE";
-
-                g2d.drawString(win, WINDOW_HEIGHT + (baseX / 2) - (g2d.getFontMetrics().stringWidth(win) / 2)
-                        , WIN_Y_OFFSET);
             }
+            else {
+                if (getPlayerTurn().getTileType().equals(Tile.TileType.X)) {
+                    g2d.setColor(X_COLOR);
+                    UtilDraw.drawCross(g2d, WINDOW_HEIGHT + (baseX / 2) - (TURN_SHAPE_SIZE / 2), TURN_Y_OFFSET, TURN_SHAPE_SIZE);
+                } else {
+                    g2d.setColor(O_COLOR);
+                    UtilDraw.drawCircle(g2d, WINDOW_HEIGHT + (baseX / 2) - (TURN_SHAPE_SIZE / 2), TURN_Y_OFFSET, TURN_SHAPE_SIZE);
+                }
 
-        }
-
-
+            }
 
     }
 
-    public Tile[][] getGrid() { return grid; }
+    public Grid getGrid() { return grid; }
 
     public Player[] getPlayers() { return players; }
     public Player getPlayerTurn() { return players[playerTurn]; }
@@ -312,6 +269,7 @@ public final class Game extends View {
             return players[1];
     }
 
+    public boolean isStarted() { return started; }
     public boolean isFinished() { return winner >= 0; }
 
 }

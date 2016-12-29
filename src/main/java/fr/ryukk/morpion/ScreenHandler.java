@@ -67,7 +67,7 @@ public class ScreenHandler extends Thread {
 
     public void update() {
         if(Morpion.view() != null)
-            Morpion.view().update();
+            Morpion.view().updateAll();
     }
 
     public int getFPS() { return fps; }

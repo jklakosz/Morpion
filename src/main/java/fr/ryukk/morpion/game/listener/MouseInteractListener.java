@@ -19,8 +19,8 @@ public class MouseInteractListener implements MouseListener {
             if(game.getPlayerTurn().getPlayerType().equals(Player.PlayerType.HUMAN))
                 for(int x = 0; x < 3; x++)
                     for(int y = 0; y < 3; y++)
-                        if(game.getGrid()[x][y].isHovered())
-                            game.getGrid()[x][y].setClicked(true);
+                        if(game.getGrid().get(x, y).isHovered())
+                            game.getGrid().get(x, y).setClicked(true);
         }
 
     }
@@ -33,11 +33,11 @@ public class MouseInteractListener implements MouseListener {
             if(game.getPlayerTurn().getPlayerType().equals(Player.PlayerType.HUMAN))
                 for(int x = 0; x < 3; x++)
                     for(int y = 0; y < 3; y++) {
-                        if(game.getGrid()[x][y].isHovered() && game.getGrid()[x][y].isClicked())
-                            if(game.getGrid()[x][y].getTileType().equals(Tile.TileType.NONE))
+                        if(game.getGrid().get(x, y).isHovered() && game.getGrid().get(x, y).isClicked())
+                            if(game.getGrid().get(x, y).getTileType().equals(Tile.TileType.NONE))
                                 ((HumanPlayer) game.getPlayerTurn()).playerClick(x, y);
 
-                        game.getGrid()[x][y].setClicked(false);
+                        game.getGrid().get(x, y).setClicked(false);
                     }
 
         }

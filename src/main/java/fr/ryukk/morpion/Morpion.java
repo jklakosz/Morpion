@@ -4,6 +4,7 @@ import fr.ryukk.morpion.game.Game;
 import fr.ryukk.morpion.game.Tile;
 import fr.ryukk.morpion.game.player.HumanPlayer;
 import fr.ryukk.morpion.game.player.Player;
+import fr.ryukk.morpion.gui.MainMenu;
 import fr.ryukk.morpion.utils.View;
 
 /**
@@ -29,21 +30,41 @@ public final class Morpion {
 
     private static boolean debug;
 
+    public Morpion() {
+        window = new Window();
+        screenHandler = new ScreenHandler();
+    }
+
     private void start() {
         Player[] players = new Player[2];
+        players[0] = new HumanPlayer("Tamer", Tile.TileType.O);
+        players[1] = new HumanPlayer("Tonper", Tile.TileType.X);
 
-        players[0] = new HumanPlayer("George Sand", Tile.TileType.O);
-        players[1] = new HumanPlayer("Isaac Newton", Tile.TileType.X);
-
-        window = new Window();
-        view = new Game(players);
-
-        screenHandler = new ScreenHandler();
         screenHandler.start();
 
-        window.switchView(view);
+        Game last = null;
 
-        ((Game) view).start();
+        while(true) {
+            if(last == null || (last != null && last.getWinner() == null))
+                view = new Game(players);
+            else
+                view = new Game(players, (byte) (players[0] == last.getWinner() ? 1 : 0));
+
+            last = (Game) view;
+
+            window.switchView(view);
+
+            ((Game) view).start();
+
+            try {
+                Thread.sleep(3000);
+            }
+            catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+        }
+
     }
 
     public static void main(String[] args) {

@@ -2,14 +2,14 @@ package fr.ryukk.morpion.game;
 
 import fr.ryukk.morpion.Morpion;
 import fr.ryukk.morpion.game.player.Player;
-import fr.ryukk.morpion.utils.UtilDraw;
-import fr.ryukk.morpion.utils.UtilMouse;
+import fr.ryukk.morpion.utils.*;
+import fr.ryukk.morpion.utils.Component;
 
 import java.awt.*;
 
 import static fr.ryukk.morpion.utils.Constants.*;
 
-public final class Tile {
+public final class Tile implements Component {
 
     private int x, y;
     private TileType tileType;
@@ -27,58 +27,72 @@ public final class Tile {
         clicked = false;
     }
 
-    public void paintComponent(Game game, Graphics2D g2d) {
-        int gridSize = WINDOW_HEIGHT - 40;
+    @Override
+    public void render(Graphics2D g2d) {
+        if(Morpion.view() instanceof Game) {
+            Game game = (Game) Morpion.view();
+            int gridSize = WINDOW_HEIGHT - 40;
 
-        int x = 20 + this.x * (gridSize / 3) + 30;
-        int y = 20 + this.y * (gridSize / 3) + 30;
+            int x = 20 + this.x * (gridSize / 3) + 30;
+            int y = 20 + this.y * (gridSize / 3) + 30;
 
-        int size = (gridSize / 3) - 60;
+            int size = (gridSize / 3) - 60;
 
-        if(hovered && game.getPlayerTurn().getPlayerType().equals(Player.PlayerType.HUMAN) && !game.isFinished()) {
-            if(tileType.equals(TileType.NONE))
-                g2d.setColor(clicked ? CLICKED_NONE_COLOR : HOVER_NONE_COLOR);
-            else if(tileType.equals(game.getPlayerTurn().getTileType()))
-                g2d.setColor(HOVER_FRIEND_COLOR);
-            else
-                g2d.setColor(HOVER_ENNEMY_COLOR);
+            g2d.setStroke(LINE_STROKE);
 
-            g2d.fillRect( 20 + this.x * (gridSize / 3), 20 + this.y * (gridSize / 3), gridSize / 3, gridSize / 3);
-        }
+            if(hovered && game.getPlayerTurn().getPlayerType().equals(Player.PlayerType.HUMAN) && !game.isFinished()
+                    && game.isStarted()) {
+                if(tileType.equals(TileType.NONE))
+                    g2d.setColor(clicked ? CLICKED_NONE_COLOR : HOVER_NONE_COLOR);
+                else if(tileType.equals(game.getPlayerTurn().getTileType()))
+                    g2d.setColor(HOVER_FRIEND_COLOR);
+                else
+                    g2d.setColor(HOVER_ENNEMY_COLOR);
 
-        switch(tileType) {
-            case NONE:
-                break;
-            case X:
-                g2d.setColor(X_COLOR);
-                UtilDraw.drawCross(g2d, x, y, size);
-                break;
-            case O:
-                g2d.setColor(O_COLOR);
-                UtilDraw.drawCircle(g2d, x, y, size);
-                break;
+                g2d.fillRect(20 + this.x * (gridSize / 3), 20 + this.y * (gridSize / 3), gridSize / 3, gridSize / 3);
+            }
+
+            switch(tileType) {
+                case NONE:
+                    break;
+                case X:
+                    g2d.setColor(X_COLOR);
+                    UtilDraw.drawCross(g2d, x, y, size);
+                    break;
+                case O:
+                    g2d.setColor(O_COLOR);
+                    UtilDraw.drawCircle(g2d, x, y, size);
+                    break;
+            }
+
         }
 
     }
 
-    public void update(Game game) {
-        int gridSize = WINDOW_HEIGHT - 40;
+    @Override
+    public void update() {
+        if(Morpion.view() instanceof Game) {
+            Game game = (Game) Morpion.view();
 
-        Point mouse = UtilMouse.getPointerLocation();
+            int gridSize = WINDOW_HEIGHT - 40;
 
-        double mX = mouse.getX();
-        double mY = mouse.getY();
+            Point mouse = UtilMouse.getPointerLocation();
 
-        int minX = 20 + x * (gridSize / 3);
-        int maxX = 20 + (x + 1) * (gridSize / 3);
+            double mX = mouse.getX();
+            double mY = mouse.getY();
 
-        int minY = 20 + y * (gridSize / 3);
-        int maxY = 20 + (y + 1) * (gridSize / 3);
+            int minX = 20 + x * (gridSize / 3);
+            int maxX = 20 + (x + 1) * (gridSize / 3);
 
-        if(minX < mX && mX <= maxX && minY < mY && mY <= maxY)
-            game.getGrid()[x][y].setHovered(true);
-        else
-            game.getGrid()[x][y].setHovered(false);
+            int minY = 20 + y * (gridSize / 3);
+            int maxY = 20 + (y + 1) * (gridSize / 3);
+
+            if(minX < mX && mX <= maxX && minY < mY && mY <= maxY)
+                game.getGrid().get(x, y).setHovered(true);
+            else
+                game.getGrid().get(x, y).setHovered(false);
+        }
+
     }
 
     public int getX() { return x; }
