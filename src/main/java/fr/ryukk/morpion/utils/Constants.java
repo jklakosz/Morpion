@@ -14,7 +14,7 @@ public final class Constants {
     public static final Font NAME_FONT = new Font("Verdana", Font.PLAIN, 24);
     public static final Font TYPE_FONT = new Font("Verdana", Font.PLAIN, 10);
     public static final Font SCORE_FONT = new Font("Verdana", Font.PLAIN, 36);
-    public static final Font WIN_FONT = new Font("Verdana", Font.PLAIN, 38);
+    public static final Font WIN_FONT = new Font("Arial", Font.BOLD, 38);
     public static final Font DEBUG_FONT = new Font("Consolas", Font.BOLD, 16);
 
 
