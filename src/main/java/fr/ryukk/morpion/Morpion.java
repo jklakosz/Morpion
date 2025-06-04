@@ -2,6 +2,7 @@ package fr.ryukk.morpion;
 
 import fr.ryukk.morpion.game.Game;
 import fr.ryukk.morpion.game.Tile;
+import fr.ryukk.morpion.game.player.AIPlayer;
 import fr.ryukk.morpion.game.player.HumanPlayer;
 import fr.ryukk.morpion.game.player.Player;
 import fr.ryukk.morpion.gui.MainMenu;
@@ -38,7 +39,7 @@ public final class Morpion {
     private void start() {
         Player[] players = new Player[2];
         players[0] = new HumanPlayer("Tamer", Tile.TileType.O);
-        players[1] = new HumanPlayer("Tonper", Tile.TileType.X);
+        players[1] = new AIPlayer(Tile.TileType.X);
 
         screenHandler.start();
 

@@ -2,7 +2,9 @@ package fr.ryukk.morpion.game;
 
 import fr.ryukk.morpion.game.listener.KeyboardInteractListener;
 import fr.ryukk.morpion.game.listener.MouseInteractListener;
+import fr.ryukk.morpion.game.player.AIPlayer;
 import fr.ryukk.morpion.game.player.Player;
+import fr.ryukk.morpion.game.Tile; // Added for Tile.TileType, though may be implicitly available
 import fr.ryukk.morpion.utils.Serie;
 import fr.ryukk.morpion.utils.UtilDraw;
 import fr.ryukk.morpion.utils.View;
@@ -58,6 +60,14 @@ public final class Game extends View {
         started = true;
 
         while(winner == -1) {
+            Player currentPlayer = players[playerTurn];
+            Player opponentPlayer = players[playerTurn == 0 ? 1 : 0];
+            Tile.TileType opponentTileType = opponentPlayer.getTileType();
+
+            if (currentPlayer instanceof AIPlayer) {
+                ((AIPlayer) currentPlayer).setGameContext(this.grid, opponentTileType);
+            }
+
             players[playerTurn].turn();
             checkWin();
 
